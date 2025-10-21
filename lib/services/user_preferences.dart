@@ -36,4 +36,40 @@ class UserPreferences {
   bool isMockDataAdded() {
     return _prefs?.getBool('mockDataAdded') ?? false;
   }
+
+  // User age
+  Future<void> setUserAge(int age) async {
+    await _prefs?.setInt('userAge', age);
+  }
+
+  int? getUserAge() {
+    return _prefs?.getInt('userAge');
+  }
+
+  // User gender
+  Future<void> setUserGender(String gender) async {
+    await _prefs?.setString('userGender', gender);
+  }
+
+  String? getUserGender() {
+    return _prefs?.getString('userGender');
+  }
+
+  // User email
+  Future<void> setUserEmail(String email) async {
+    await _prefs?.setString('userEmail', email);
+  }
+
+  String? getUserEmail() {
+    return _prefs?.getString('userEmail');
+  }
+
+  // User phone
+  Future<void> setUserPhone(String phone) async {
+    await _prefs?.setString('userPhone', phone);
+  }
+
+  String? getUserPhone() {
+    return _prefs?.getString('userPhone');
+  }
 }

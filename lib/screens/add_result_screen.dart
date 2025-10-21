@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../models/test_category.dart';
 import '../models/test_result.dart';
 import '../services/database_helper.dart';
+import 'ai_assist_screen.dart';
 
 class AddResultScreen extends StatefulWidget {
   const AddResultScreen({super.key});
@@ -26,26 +27,10 @@ class _AddResultScreenState extends State<AddResultScreen> {
     super.dispose();
   }
 
-  void _showAIComingSoon() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Coming Soon! 🚀'),
-        content: const Text(
-          'AI-assisted data entry is currently under development.\n\n'
-          'Soon you\'ll be able to:\n'
-          '• Take a photo of your test results\n'
-          '• Let AI automatically extract the data\n'
-          '• Review and confirm the entries\n\n'
-          'For now, please use the manual entry option.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Got it'),
-          ),
-        ],
-      ),
+  void _openAIAssist() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AIAssistScreen()),
     );
   }
 
@@ -120,8 +105,8 @@ class _AddResultScreenState extends State<AddResultScreen> {
                     icon: Icons.camera_alt_outlined,
                     title: 'AI Assist',
                     isSelected: false,
-                    badge: 'Soon',
-                    onTap: _showAIComingSoon,
+                    badge: 'New',
+                    onTap: _openAIAssist,
                   ),
                 ),
               ],

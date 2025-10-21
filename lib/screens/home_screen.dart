@@ -5,6 +5,7 @@ import '../models/test_result.dart';
 import 'add_result_screen.dart';
 import 'history_screen.dart';
 import 'chart_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,8 +65,16 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline),
-            onPressed: () {
-              // TODO: Profile/settings
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfileScreen(),
+                ),
+              );
+              if (result == true) {
+                _loadData();
+              }
             },
           ),
         ],
