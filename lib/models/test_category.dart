@@ -47,6 +47,13 @@ class TestCategories {
           normalMax: 11.0,
         ),
         TestTemplate(
+          name: 'Lymphocytes',
+          unit: 'K/µL',
+          normalMin: 1.0,
+          normalMax: 4.8,
+          description: 'Type of white blood cell',
+        ),
+        TestTemplate(
           name: 'Platelets',
           unit: 'K/µL',
           normalMin: 150.0,

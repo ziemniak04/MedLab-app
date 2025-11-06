@@ -37,7 +37,7 @@ Return ONLY a valid JSON object with the following structure:
 }
 
 Available test categories and their tests:
-- Blood Count: Hemoglobin (g/dL), White Blood Cells (K/µL), Platelets (K/µL)
+- Blood Count: Hemoglobin (g/dL), White Blood Cells (K/µL), Lymphocytes (K/µL), Platelets (K/µL)
 - Cholesterol: Total Cholesterol (mg/dL), LDL (mg/dL), HDL (mg/dL), Triglycerides (mg/dL)
 - Thyroid: TSH (mIU/L), T3 (ng/dL), T4 (µg/dL)
 - Blood Sugar: Glucose (Fasting) (mg/dL), HbA1c (%)
@@ -121,6 +121,8 @@ Match test names as closely as possible to the list above. Extract only the nume
         'white blood cells': 'White Blood Cells',
         'wbc': 'White Blood Cells',
         'leukocytes': 'White Blood Cells',
+        'lymphocytes': 'Lymphocytes',
+        'lymph': 'Lymphocytes',
         'platelets': 'Platelets',
         'plt': 'Platelets',
       },
@@ -181,6 +183,7 @@ $resultsText
 Reference ranges:
 - Hemoglobin: 12.0-16.0 g/dL
 - White Blood Cells: 4.0-11.0 K/µL
+- Lymphocytes: 1.0-4.8 K/µL
 - Platelets: 150.0-400.0 K/µL
 - Total Cholesterol: <200 mg/dL (optimal)
 - LDL: <100 mg/dL (optimal)
