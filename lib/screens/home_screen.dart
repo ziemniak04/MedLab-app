@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 CircularProgressIndicator(),
                 SizedBox(height: 16),
-                Text('AI Doctor analizuje...'),
+                Text('AI Doctor analysing...'),
               ],
             ),
           ),
