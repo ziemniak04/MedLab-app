@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/test_result.dart';
 import '../services/database_helper.dart';
+import '../services/export_service.dart';
+import '../services/user_preferences.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -60,6 +62,80 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
+  Future<void> _exportToPDF() async {
+    if (_allResults.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No results to export')),
+      );
+      return;
+    }
+
+    try {
+      // Show loading
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: Card(
+            child: Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text('Generating PDF...'),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final userName = UserPreferences.instance.getUserName() ?? 'User';
+      final pdfFile = await ExportService.generatePDF(_allResults, userName);
+
+      if (mounted) Navigator.pop(context); // Close loading
+
+      // Show success and share
+      if (mounted) {
+        final share = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('PDF Generated'),
+            content: const Text('Your health report has been generated. Would you like to share it?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Close'),
+              ),
+              ElevatedButton.icon(
+                onPressed: () => Navigator.pop(context, true),
+                icon: const Icon(Icons.share),
+                label: const Text('Share'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue.shade700,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        );
+
+        if (share == true) {
+          await ExportService.sharePDF(pdfFile);
+        }
+      }
+    } catch (e) {
+      if (mounted) Navigator.pop(context); // Close loading
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Export failed: $e')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +148,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.grey.shade900,
         elevation: 0,
+        actions: [
+          if (_allResults.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.picture_as_pdf),
+              tooltip: 'Export to PDF',
+              onPressed: _exportToPDF,
+            ),
+        ],
       ),
+      floatingActionButton: _allResults.isNotEmpty
+          ? FloatingActionButton.extended(
+              onPressed: _exportToPDF,
+              backgroundColor: Colors.blue.shade700,
+              icon: const Icon(Icons.file_download),
+              label: const Text('Export PDF'),
+            )
+          : null,
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _allResults.isEmpty
