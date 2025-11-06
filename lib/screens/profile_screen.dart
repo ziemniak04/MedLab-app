@@ -271,8 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             items: [
                               'Not specified',
                               'Male',
-                              'Female',
-                              'Other',
+                              'Female'
                             ].map((gender) {
                               return DropdownMenuItem(
                                 value: gender,
